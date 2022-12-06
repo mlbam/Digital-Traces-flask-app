@@ -12,5 +12,5 @@ For the digital traces course, I deployed a simple app on Deta and Streamlit Clo
 
 ## Links
 
-Deta deployement : https://xqfdjt.deta.dev/ 
+Deta deployement : https://xqfdjt.deta.dev/  
 Streamlit Cloud : https://mlbam-digital-traces-flask-app-myappgoogleanalyticsmain-8kf12k.streamlit.app

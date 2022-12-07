@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+
 app = Flask(__name__)
 
 @app.route('/', methods=["GET"])
@@ -8,9 +9,14 @@ def hello_world():
 
 # add a route to see the logs 
 @app.route('/logger', methods=["GET"])
-def logs():
-    # get the logs of the page 
-    logs = app.logger.get_logs()
-    # display the logs.html template
-    return render_template('logs.html', logs=logs)
+def logger():
+    script = """
+    <script> console.log("Hello, just a little phrase in a console 😋")</script>"""
+    return "Take a look at the console for a surprise 🎉" + script
+
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
 

@@ -14,6 +14,24 @@ def logger():
     <script> console.log("Hello, just a little phrase in a console 😋")</script>"""
     return "Take a look at the console for a surprise 🎉" + script
 
+@app.route('/print', methods=["GET"])
+def print():
+    # using a textbox, print the message in the browser console 
+    script = """
+    <script>
+        function myFunction() {
+        var message = document.getElementById("message").value;
+        console.log(message);
+        }
+    </script>"""
+    return """
+    <input type="text" id="message" placeholder="Enter a message">
+    <button onclick="myFunction()">Print</button>""" + script
+
+
+
+
+
 
 
 

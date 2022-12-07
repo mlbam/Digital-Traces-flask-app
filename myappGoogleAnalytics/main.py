@@ -9,8 +9,8 @@ def hello_world():
 # add a route to see the logs 
 @app.route('/logger', methods=["GET"])
 def logs():
-    # print a log on python 
-    app.logger.info('This is a log')
-    # display the logs on the front 
-    return "This is a log"
+    # get the logs of the page 
+    logs = app.logger.get_logs()
+    # display the logs.html template
+    return render_template('logs.html', logs=logs)
 

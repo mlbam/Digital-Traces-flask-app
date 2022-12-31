@@ -1,4 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, Response, request, jsonify
+import requests
+
 
 app = Flask(__name__)
 
@@ -10,11 +12,12 @@ def hello_world():
 # add a route to see the logs 
 @app.route('/logger', methods=["GET"])
 def logger():
-    # print in the console a phrase with a smiley hand shaking
     app.logger.info('testing info log in the console')
     script = """
     <script> console.log("Hello, just a little phrase in a console 😋")</script>"""
+    print('hello there')
     return "Take a look at the console for a surprise 🎉" + script
+
 
 @app.route('/print', methods=["GET"])
 def print():
@@ -26,11 +29,18 @@ def print():
         console.log(message);
         }
     </script>"""
+
     return """
     <input type="text" id="message" placeholder="Enter a message">
     <button onclick="myFunction()">Print</button>""" + script
 
 
+# set up a cookies route
+@app.route('/cookies', methods=["GET"])
+def cookies():
+    # add a get call to google req =requests.get("https://www.google.com/")
+    req = requests.get("https://www.google.com/")
+    return req.cookies.get_dict()
 
 
 

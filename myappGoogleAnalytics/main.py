@@ -2,12 +2,15 @@ from flask import Flask, render_template
 import requests
 from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 app = Flask(__name__)
 
 SCOPES = ['https://www.googleapis.com/auth/analytics.readonly']
 KEY_FILE_LOCATION = 'digital-traces-373311-c607e60b6a4d.json'
-VIEW_ID = '281216124' 
+VIEW_ID = os.getenv("VIEW_ID")
 
 
 

@@ -1,9 +1,17 @@
+import base64
+from dotenv import load_dotenv
 from flask import Flask, render_template
-import requests
 from googleapiclient.discovery import build
 from oauth2client.service_account import ServiceAccountCredentials
-from dotenv import load_dotenv
+from io import BytesIO
+import matplotlib.pyplot as plt
 import os
+from pytrends.request import TrendReq
+import requests
+
+
+
+
 
 load_dotenv()
 app = Flask(__name__)
@@ -59,7 +67,7 @@ def visitors():
   response = get_report(analytics)
   visitors = get_visitors(response)
 
-  return "Number of visitor fetched from Google Analytics using its API (GCP) : " + visitors
+  return "nb visitors" + visitors
 
 
 
@@ -87,7 +95,7 @@ def logger():
     app.logger.info('testing info log in the console')
     script = """
     <script> console.log("Hello, just a little phrase in a console 😋")</script>"""
-    print('hello there')
+    
     return "Take a look at the console for a surprise 🎉" + script
 
 
@@ -125,12 +133,45 @@ def cookies_GA():
     return req.text
 
 
+# set up a route to display google trends intel using pytrends from the last 90 days in france 
+@app.route('/trends', methods=["GET"])
+def trends():
+
+    pytrends = TrendReq(hl='fr-FR', tz=360)
+    kw_list = ["Python"]
+    pytrends.build_payload(kw_list, cat=0, timeframe='today 3-m', geo='FR', gprop='')
+    data = pytrends.interest_over_time()
+    # return the data in a table format
+    return data.to_html()
 
 
 
 
+@app.route('/chart', methods = ["GET", "POST"])
+def chartpytrend():
+    #pytrends = TrendReq(hl='en-US', tz=360, timeout=(10,25), proxies=['https://34.203.233.13:80',], retries=2, backoff_factor=0.1, requests_args={'verify':False})
 
+    pytrends = TrendReq()
+    kw_list = ['python']
+    pytrends.build_payload(kw_list=kw_list, timeframe='today 3-m', geo='FR', gprop='')
+    trend_data = pytrends.interest_over_time()
 
+    # Create a line chart using Matplotlib
+    plt.plot(trend_data['python'])
+    plt.xlabel('Date')
+    plt.ylabel('Trend')
+
+    # Save the chart to a PNG file
+    buf = BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+
+    # Encode the chart in base64
+    chart = base64.b64encode(buf.getvalue()).decode()
+    plt.clf()
+
+    # return the chart 
+    return '<img src="data:image/png;base64,{}">'.format(chart)
 
 
 

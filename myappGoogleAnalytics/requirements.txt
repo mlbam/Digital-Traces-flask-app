@@ -1,1 +1,7 @@
 flask
+pytrends 
+oauth2client
+google-api-python-client
+python-dotenv
+requests>=2.0
+pandas>=0.25

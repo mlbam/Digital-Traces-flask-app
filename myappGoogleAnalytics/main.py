@@ -152,12 +152,12 @@ def chartpytrend():
     #pytrends = TrendReq(hl='en-US', tz=360, timeout=(10,25), proxies=['https://34.203.233.13:80',], retries=2, backoff_factor=0.1, requests_args={'verify':False})
 
     pytrends = TrendReq()
-    kw_list = ['python']
+    kw_list = ['vacances']
     pytrends.build_payload(kw_list=kw_list, timeframe='today 3-m', geo='FR', gprop='')
     trend_data = pytrends.interest_over_time()
 
     # Create a line chart using Matplotlib
-    plt.plot(trend_data['python'])
+    plt.plot(trend_data['vacances'])
     plt.xlabel('Date')
     plt.ylabel('Trend')
 
